@@ -1,44 +1,32 @@
 import { WaterJugSolver } from '../domain/interfaces/WaterJugSolver';
 import { WaterJugState } from '../domain/entities/WaterJugState';
+import { Queue } from '../infrastructure/utils/Queue';
+import { generateNextStates } from '../infrastructure/utils/GenerateNextSate';
 
 export class WaterJugSolverImpl implements WaterJugSolver {
-    solve(x_capacity: number, y_capacity: number, z_amount_wanted: number): WaterJugState['steps'] | null {
-        // Early termination if the desired amount is greater than both jug capacities
-        if (z_amount_wanted > x_capacity && z_amount_wanted > y_capacity) {
+    
+    public solve(x_capacity: number, y_capacity: number, z_amount_wanted: number): WaterJugState['steps'] | null {
+        // if the desired amount Z is greater than both jug capacities it's impossible to solve
+        if (this.isDesiredAmountImpossible(x_capacity, y_capacity, z_amount_wanted)) {
             return null;
         }
 
-        const initialState: WaterJugState = { bucketX: 0, bucketY: 0, steps: [] };
-        const queue: WaterJugState[] = [initialState];
+        const initialState = this.createInitialState();
+        const queue = Queue.initialize(initialState);
         const visited = new Set<string>();
 
-        while (queue.length > 0) {
-            const current = queue.shift()!;
-            const { bucketX, bucketY, steps } = current;
+        while (!queue.isEmpty()) {
+            const current = queue.dequeue()!;
+            const { steps } = current;
 
             // Check if we have reached the desired amount
-            if (bucketX === z_amount_wanted || bucketY === z_amount_wanted) {
-                steps[steps.length - 1].status = "Solved";
-                return steps;
+            if (this.isSolutionFound(current, z_amount_wanted)) {
+                this.markSolution(current.steps);
+                return current.steps;
             }
 
             // Generate next states
-            const nextStates = [
-                { bucketX: x_capacity, bucketY, action: "Fill bucket X" },
-                { bucketX, bucketY: y_capacity, action: "Fill bucket Y" },
-                { bucketX: 0, bucketY, action: "Empty bucket X" },
-                { bucketX, bucketY: 0, action: "Empty bucket Y" },
-                {
-                    bucketX: Math.max(0, bucketX - (y_capacity - bucketY)),
-                    bucketY: Math.min(y_capacity, bucketY + bucketX),
-                    action: "Transfer from bucket X to Y"
-                },
-                {
-                    bucketX: Math.min(x_capacity, bucketX + bucketY),
-                    bucketY: Math.max(0, bucketY - (x_capacity - bucketX)),
-                    action: "Transfer from bucket Y to X"
-                }
-            ];
+            const nextStates = generateNextStates(current, x_capacity, y_capacity);
 
             for (const next of nextStates) {
                 const nextState: WaterJugState = {
@@ -50,11 +38,31 @@ export class WaterJugSolverImpl implements WaterJugSolver {
                 const stateKey = `${nextState.bucketX},${nextState.bucketY}`;
                 if (!visited.has(stateKey)) {
                     visited.add(stateKey);
-                    queue.push(nextState);
+                    queue.enqueue(nextState);
                 }
             }
         }
 
         return null;
+    }
+    
+    /* Creates and return the initial state, both have a value of 0 because each jug is empty */
+    private createInitialState(): WaterJugState {
+        return { bucketX: 0, bucketY: 0, steps: [] };
+    }
+
+    // Validates if the desired amount is impossible if it is greater than both jug capacities, returns a boolean value
+    private isDesiredAmountImpossible(x_capacity: number, y_capacity: number, z_amount_wanted: number): boolean {
+        return z_amount_wanted > x_capacity && z_amount_wanted > y_capacity;
+    }
+
+    // Validates if the current state of the water jugs match with the desired amount
+    private isSolutionFound(current: WaterJugState, z_amount_wanted: number): boolean {
+        return current.bucketX === z_amount_wanted || current.bucketY === z_amount_wanted;
+    }
+
+    // Add the status SOLVED to the current state
+    private markSolution(steps: WaterJugState['steps']): void {
+        steps[steps.length - 1].status = "Solved";
     }
 }
