@@ -233,4 +233,4 @@ curl -X POST "http://localhost:3000/solve" \
 
 ## Documentation
 
-The API is documented using Swagger UI, which provides an interactive interface for testing the API endpoints. After starting the server, you can access the Swagger UI documentation at `http://localhost:3000/api-docs` or [railway Deploymnet](https://water-jug-api-production.up.railway.app/api-doc).
+The API is documented using Swagger UI, which provides an interactive interface for testing the API endpoints. After starting the server, you can access the Swagger UI documentation at `http://localhost:3000/api-docs` or [railway Deploymnet](https://water-jug-api-production.up.railway.app/api-docs).
