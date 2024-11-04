@@ -122,7 +122,7 @@ You'll see the next output on the terminal:
 
 This is a message from the logger indicating that our `API` is running without problems.
 
-**feat**: You can try this `API` by making `POST` calls to this link: [production](https://water-jug-api-production.up.railway.app/)
+**feat**: You can try this `API` by making `POST` calls to this link: [production](https://water-jug-api-production.up.railway.app/solve)
 
 ## Algorithm Explanation
 
