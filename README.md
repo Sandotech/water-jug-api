@@ -56,8 +56,8 @@ src/
     ```json
     {
       "solution": [
-        { "step": number, "bucketX": number, "bucketY": number, "action": string },
-        { "step": number, "bucketX": number, "bucketY": number, "action": string, "status": "Solved" } // add "status" Solved if solution is found in this step
+        { "step": "number", "bucketX": "number", "bucketY": "number", "action": "string" },
+        { "step": "number", "bucketX": "number", "bucketY": "number", "action": "string", "status": "Solved" } // add "status" Solved if solution is found in this step
         ...
       ]
     }
