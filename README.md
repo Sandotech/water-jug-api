@@ -1,11 +1,10 @@
-
 # Water Jug Problem API
 
 This API provides a solution to the classic Water Jug Challenge Problem. Given the capacities of two jugs and a desired amount of water, the API determines if it's possible to measure the desired amount using the two jugs and returns the steps to achieve it.
 
-## API
+## API Structure
 
-The `src` folder of this project is strutured in this way:
+The `src` folder of this project is structured in this way:
 
 ```bash
 src/
@@ -20,7 +19,7 @@ src/
 │   ├── repositories
 │   │   └── WaterJugRepository.ts
 │   └── utils
-│       ├── GenerateNextSate.ts
+│       ├── GenerateNextState.ts
 │       └── Queue.ts
 ├── interface
 │   ├── controllers
@@ -34,11 +33,11 @@ src/
 11 directories, 11 files
 ```
 
-- `app.ts` wrap the whole application to run the server.
-- `domain` Independet folder that has all our entities and interfaces.
-- `use-cases` has the logic of to solve the Water Jug Problem
-- `infrastructure` wrap implementations of the interface `(WaterJug)`, the Queue Object, and logger to watch the flow run of the app.
-- `interface` Contains the API REST in express (`routes` and `controllers`)
+- `app.ts` wraps the whole application to run the server.
+- `domain` is an independent folder that contains all our entities and interfaces.
+- `use-cases` contains the logic to solve the Water Jug Problem.
+- `infrastructure` wraps implementations of the interface `(WaterJug)`, the Queue object, and a logger to watch the flow of the app.
+- `interface` contains the API REST in Express (`routes` and `controllers`).
 
 ## API Endpoint
 
@@ -82,11 +81,11 @@ src/
     }
     ```
 
-## How to run this API
+## How to Run This API
 
 ### Prerequisites
 
-To run it in your local machine you'll need these packages installed:
+To run it on your local machine, you'll need these packages installed:
 
 - Node.js
 - npm
@@ -121,15 +120,15 @@ You'll see the next output on the terminal:
 {"level":"info","message":"Server is running on port 3000","timestamp":"the actual timestamp"}
 ```
 
-This is a message from the logger giving the message that our `API` is running wothout problems.
+This is a message from the logger indicating that our `API` is running without problems.
 
 ## Algorithm Explanation
 
 The Water Jug Challenge Problem is solved using a breadth-first search (BFS) algorithm. The algorithm explores all possible states of the two jugs until it finds a state where one of the jugs contains the desired amount of water or determines that no solution is possible.
 
-The steps are organized in a `Queue` structure, using the FIFO organnization (First In, First Out) to organize each step. This is located in the `utils` folder.
+The steps are organized in a `Queue` structure, using the FIFO organization (First In, First Out) to organize each step. This is located in the `utils` folder.
 
-### Step by step explanation :
+### Step-by-Step Explanation:
 
 1. **Initialize**: Start with both jugs empty.
 2. **Queue**: Use a queue to explore each state.
@@ -142,7 +141,7 @@ The steps are organized in a `Queue` structure, using the FIFO organnization (Fi
 6. **Check**: If a state with the desired amount of water is found, return the path to that state.
 7. **Terminate**: If the queue is exhausted without finding a solution, return that no solution is possible.
 
-You could see it in code here `use-cases/WaterJugImpl.ts` and checking all the imported files.
+You can see it in code here `use-cases/WaterJugImpl.ts` and check all the imported files.
 
 ### Example:
 
@@ -233,5 +232,3 @@ curl -X POST "http://localhost:3000/solve" \
 ## Documentation
 
 The API is documented using Swagger UI, which provides an interactive interface for testing the API endpoints. After starting the server, you can access the Swagger UI documentation at `http://localhost:3000/api-docs` or `railway.app/api-doc`.
-
-

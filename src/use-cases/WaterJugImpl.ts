@@ -1,7 +1,7 @@
 import { WaterJugSolver } from '../domain/interfaces/WaterJugSolver';
 import { WaterJugState } from '../domain/entities/WaterJugState';
 import { Queue } from '../infrastructure/utils/Queue';
-import { generateNextStates } from '../infrastructure/utils/GenerateNextSate';
+import { generateNextStates } from '../infrastructure/utils/GenerateNextState';
 
 export class WaterJugSolverImpl implements WaterJugSolver {
     
